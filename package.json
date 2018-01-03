@@ -1,0 +1,22 @@
+{
+  "name": "hyperapp-lessons",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@hyperapp/html": "^0.5.1",
+    "@hyperapp/router": "^0.4.1",
+    "hyperapp": "^1.0.1",
+    "tailwindcss": "^0.4.0"
+  },
+  "devDependencies": {
+    "poi": "^9.6.9"
+  },
+  "scripts": {
+    "dev": "poi --jsx h",
+    "build": "poi build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
