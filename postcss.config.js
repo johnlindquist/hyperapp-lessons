@@ -1,4 +1,5 @@
-const tailwindcss = require("tailwindcss")
+const cssnext = require("postcss-cssnext")
+const fontMagician = require("postcss-font-magician")
 module.exports = {
-  plugins: [tailwindcss("./tailwind.js")]
+  plugins: [fontMagician, cssnext]
 }

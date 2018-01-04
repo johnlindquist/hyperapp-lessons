@@ -1,15 +1,41 @@
-@tailwind preflight;
-
-.btn {
-  @apply .font-bold .py-2 .px-4 .rounded;
+:root {
+  --darkColor: rgb(5%, 5%, 5%);
+  --lightColor: rgb(95%, 95%, 95%);
+  --ctaColor: rgb(5%, 5%, 95%);
+  --fontSize: 1rem;
 }
 
-.btn-blue {
-  @apply .bg-blue .text-white;
+* {
+  font-family: "Merriweather";
 }
 
-.btn-blue:hover {
-  @apply .bg-blue-dark;
+*:focus {
+  outline: 0;
 }
 
-@tailwind utilities;
+body {
+  color: var(--darkColor);
+}
+
+a {
+  color: var(--ctaColor);
+}
+
+button {
+  padding: .75rem;
+  font-size: var(--fontSize);
+  color: var(--lightColor);
+  background-color: var(--ctaColor);
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+a:hover,
+button:hover {
+  outline: 0;
+  filter: hue-rotate(30deg);
+}
+

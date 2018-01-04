@@ -7,10 +7,14 @@
     "@hyperapp/html": "^0.5.1",
     "@hyperapp/router": "^0.4.1",
     "hyperapp": "^1.0.1",
-    "tailwindcss": "^0.4.0"
+    "immer": "^0.2.0",
+    "partial.lenses": "^13.1.1",
+    "ramda": "^0.25.0"
   },
   "devDependencies": {
-    "poi": "^9.6.9"
+    "poi": "^9.6.9",
+    "postcss-cssnext": "^3.0.2",
+    "postcss-font-magician": "^2.1.0"
   },
   "scripts": {
     "dev": "poi --jsx h",

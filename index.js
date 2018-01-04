@@ -2,34 +2,22 @@ import "./styles.css"
 import { h, app } from "hyperapp"
 import { main, button } from "@hyperapp/html"
 import { Route } from "@hyperapp/router"
-
+import * as R from "ramda"
+import immer from "immer"
 const state = { message: "Awesome" }
-const actions = {
-  updateMessage: () => state => ({
-    message: state.message + "!!!"
-  })
-}
-
-const Home = (state, actions) => () => (
-  <button
-    class="btn btn-blue"
-    onclick={actions.updateMessage}
-  >
-    {state.message}
-  </button>
-)
+const actions = {}
 
 const view = (state, actions) => (
   <main>
-    <h1>Hello world</h1>
-    <FeatherIcon
-      name="activity"
-      class="text-green"
-    />
-    <Route
-      path={"/"}
-      render={Home(state, actions)}
-    />
+    <h2 class="">Hello world</h2>
+    <a href="">Is this thing on?</a>
+    <div>
+      <p>
+        Hello everyone, how are we all doing
+        today?
+      </p>
+    </div>
+    <button>Click me</button>
   </main>
 )
 
@@ -39,5 +27,3 @@ app(
   view,
   document.querySelector("#app")
 )
-
-console.log(feather)
