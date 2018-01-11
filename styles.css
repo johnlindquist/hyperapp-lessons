@@ -1,41 +1,48 @@
-:root {
-  --darkColor: rgb(5%, 5%, 5%);
-  --lightColor: rgb(95%, 95%, 95%);
-  --ctaColor: rgb(5%, 5%, 95%);
-  --fontSize: 1rem;
-}
+@tailwind preflight;
 
 * {
-  font-family: "Merriweather";
+  font-family: "ABeeZee";
 }
 
-*:focus {
-  outline: 0;
+.main {
+  @apply flex flex-col items-center;
 }
 
-body {
-  color: var(--darkColor);
+.person {
+  @apply flex items-center cursor-pointer;
 }
 
-a {
-  color: var(--ctaColor);
+.person:hover {
+  @apply text-blue-dark;
 }
 
-button {
-  padding: .75rem;
-  font-size: var(--fontSize);
-  color: var(--lightColor);
-  background-color: var(--ctaColor);
+.person img {
+  @apply w-16 h-16;
 }
 
-a,
-button {
-  cursor: pointer;
+.selectedPeople {
+  @apply flex flex-wrap;
 }
 
-a:hover,
-button:hover {
-  outline: 0;
-  filter: hue-rotate(30deg);
+.selectedPeople img {
+  @apply w-32 h-32;
 }
 
+.selectedPerson {
+  @apply relative cursor-pointer;
+}
+
+.selectedPerson h2 {
+  @apply text-red absolute hidden text-5xl pt-1 pl-1;
+  line-height: 24px;
+}
+
+.selectedPerson:hover h2 {
+  @apply block z-10;
+}
+
+.selectedPerson:hover img {
+  filter: brightness(50%);
+}
+
+@tailwind utilities;

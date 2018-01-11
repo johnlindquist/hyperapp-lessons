@@ -1,0 +1,8 @@
+{
+  "plugins": {
+    "tailwindcss": "./tailwind.js",
+    "postcss-import": {},
+    "postcss-font-magician": {},
+    "postcss-cssnext": {}
+  }
+}
