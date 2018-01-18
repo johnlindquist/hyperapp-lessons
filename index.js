@@ -60,20 +60,22 @@ const HomeRoute = (state, actions) => ({
   location,
   match
 }) => (
-  <div>
-    <Link to="/people">
-      <h2>Available</h2>
-    </Link>
-    <People
-      crew={state.crew}
-      people={state.people}
-      addPerson={actions.addPerson}
-    />
-    <h2>Crew</h2>
-    <Crew
-      crew={state.crew}
-      removePerson={actions.removePerson}
-    />
+  <div class="flex w-full justify-around">
+    <div class="w-1/2">
+      <h2>People</h2>
+      <People
+        crew={state.crew}
+        people={state.people}
+        addPerson={actions.addPerson}
+      />
+    </div>
+    <div class="w-1/2">
+      <h2>Crew</h2>
+      <Crew
+        crew={state.crew}
+        removePerson={actions.removePerson}
+      />
+    </div>
   </div>
 )
 
@@ -140,28 +142,30 @@ const view = (state, actions) => (
     oncreate={actions.loadPeople}
     class={`p-4`}
   >
-    <nav class="flex w-1/2 justify-between">
+    <nav class="flex w-full justify-between">
       <Link to="/">Home</Link>
       <Link to="/people">People</Link>
       <Link to="/crew">Crew</Link>
     </nav>
-    <Route
-      path="/"
-      render={HomeRoute(state, actions)}
-    />
-    <Route
-      path="/people"
-      render={PeopleRoute(state, actions)}
-    />
-    <Route
-      parent
-      path="/people/:id"
-      render={PersonRoute(state, actions)}
-    />
-    <Route
-      path="/crew"
-      render={CrewRoute(state, actions)}
-    />
+    <div class="p-2">
+      <Route
+        path="/"
+        render={HomeRoute(state, actions)}
+      />
+      <Route
+        path="/people"
+        render={PeopleRoute(state, actions)}
+      />
+      <Route
+        parent
+        path="/people/:id"
+        render={PersonRoute(state, actions)}
+      />
+      <Route
+        path="/crew"
+        render={CrewRoute(state, actions)}
+      />
+    </div>
   </main>
 )
 
