@@ -1,70 +1,175 @@
 import "./styles.css"
 import { h, app } from "hyperapp"
-import people from "./people.json"
+import {
+  location,
+  Route,
+  Link
+} from "@hyperapp/router"
 
 const state = {
-  people: people.slice(0, 10),
-  selectedPerson: 2,
-  selectedPeople: []
+  location: location.state,
+  people: [],
+  crew: []
 }
 const actions = {
-  selectPerson: person => state => ({
-    selectedPeople: state.selectedPeople.includes(
-      person
+  location: location.actions,
+  loadPeople: () => async (state, actions) => {
+    const res = await fetch(
+      `https://starwars.egghead.training/people`
     )
-      ? state.selectedPeople
-      : [...state.selectedPeople, person]
+    const people = await res.json()
+    actions.setPeople(people.slice(0, 10))
+  },
+  setPeople: people => (state, actions) => ({
+    people
+  }),
+  addPerson: person => state => ({
+    crew: [...state.crew, person]
+  }),
+  removePerson: person => state => ({
+    crew: state.crew.filter(p => p !== person)
   })
 }
 
-const Person = ({
-  person,
-  selectPerson,
-  selected
+const People = ({ people, crew, addPerson }) =>
+  people
+    .filter(person => !crew.includes(person))
+    .map(person => (
+      <div
+        class={`cursor-pointer 
+      hover:text-hyper-blue
+      add
+  `}
+        onclick={e => addPerson(person)}
+      >
+        {person.name}
+      </div>
+    ))
+
+const Crew = ({ crew, removePerson }) =>
+  crew.map(member => (
+    <div
+      class={`remove hover:text-red hover:line-through cursor-pointer`}
+      onclick={e => removePerson(member)}
+    >
+      {member.name}
+    </div>
+  ))
+
+const HomeRoute = (state, actions) => ({
+  location,
+  match
 }) => (
-  <div
-    onclick={e => selectPerson(person)}
-    class={`person`}
-  >
-    <img
-      src={`https://starwars.egghead.training/${
-        person.image
-      }`}
+  <div>
+    <Link to="/people">
+      <h2>Available</h2>
+    </Link>
+    <People
+      crew={state.crew}
+      people={state.people}
+      addPerson={actions.addPerson}
     />
-    <h2>{person.name}</h2>
+    <h2>Crew</h2>
+    <Crew
+      crew={state.crew}
+      removePerson={actions.removePerson}
+    />
   </div>
 )
 
-const SelectedPerson = ({ person }) => (
-  <div className={`selectedPerson`}>
-    <h2>x</h2>
-    <img
-      src={`https://starwars.egghead.training/${
-        person.image
-      }`}
-    />
+const PeopleRoute = (state, actions) => ({
+  location,
+  match
+}) => (
+  <div>
+    <h2>People</h2>
+    <div class="flex flex-col">
+      {state.people.map(member => (
+        <Link
+          class={`info no-underline`}
+          to={`/people/${member.id}`}
+        >
+          {member.name}
+        </Link>
+      ))}
+    </div>
   </div>
 )
+const CrewRoute = (state, actions) => ({
+  location,
+  match
+}) => (
+  <div>
+    <h2>Crew</h2>
+    <div class="flex flex-col">
+      {state.crew.map(person => (
+        <Link
+          class={`info no-underline`}
+          to={`/people/${person.id}`}
+        >
+          {person.name}
+        </Link>
+      ))}
+    </div>
+  </div>
+)
+
+const PersonRoute = (state, actions) => ({
+  location,
+  match
+}) => {
+  const person = state.people.find(
+    person => person.id == match.params.id
+  )
+
+  return (
+    <div>
+      <h1>{person.name}</h1>
+      <img
+        src={`https://starwars.egghead.training/${
+          person.image
+        }`}
+        alt=""
+      />
+    </div>
+  )
+}
 
 const view = (state, actions) => (
-  <main class={`main`}>
-    <div class={`selectedPeople`}>
-      {state.selectedPeople.map(person => (
-        <SelectedPerson person={person} />
-      ))}
-    </div>
-    <div className={``}>
-      {state.people.map(person => (
-        <Person
-          person={person}
-          selected={
-            person.id === state.selectedPerson
-          }
-          selectPerson={actions.selectPerson}
-        />
-      ))}
-    </div>
+  <main
+    oncreate={actions.loadPeople}
+    class={`p-4`}
+  >
+    <nav class="flex w-1/2 justify-between">
+      <Link to="/">Home</Link>
+      <Link to="/people">People</Link>
+      <Link to="/crew">Crew</Link>
+    </nav>
+    <Route
+      path="/"
+      render={HomeRoute(state, actions)}
+    />
+    <Route
+      path="/people"
+      render={PeopleRoute(state, actions)}
+    />
+    <Route
+      parent
+      path="/people/:id"
+      render={PersonRoute(state, actions)}
+    />
+    <Route
+      path="/crew"
+      render={CrewRoute(state, actions)}
+    />
   </main>
 )
 
-app(state, actions, view, document.body)
+const main = app(
+  state,
+  actions,
+  view,
+  document.querySelector("#app")
+)
+
+location.subscribe(main.location)

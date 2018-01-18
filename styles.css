@@ -4,45 +4,21 @@
   font-family: "ABeeZee";
 }
 
-.main {
-  @apply flex flex-col items-center;
+.remove:hover:after {
+  content: "𝙓";
 }
 
-.person {
-  @apply flex items-center cursor-pointer;
+.add:hover:after {
+  content: "➕";
 }
 
-.person:hover {
-  @apply text-blue-dark;
+.info:hover:after {
+  content: "ℹ️";
 }
 
-.person img {
-  @apply w-16 h-16;
-}
-
-.selectedPeople {
-  @apply flex flex-wrap;
-}
-
-.selectedPeople img {
-  @apply w-32 h-32;
-}
-
-.selectedPerson {
-  @apply relative cursor-pointer;
-}
-
-.selectedPerson h2 {
-  @apply text-red absolute hidden text-5xl pt-1 pl-1;
-  line-height: 24px;
-}
-
-.selectedPerson:hover h2 {
-  @apply block z-10;
-}
-
-.selectedPerson:hover img {
-  filter: brightness(50%);
+a,
+a:visited {
+  @apply text-black;
 }
 
 @tailwind utilities;
