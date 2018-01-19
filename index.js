@@ -1,24 +1,18 @@
-import "./styles.css"
-import { h, app } from "hyperapp"
+import { app, h } from "hyperapp"
 
 const state = {
-  count: 0
+  message: "Hyperapp says hi!"
 }
-
 const actions = {
-  inc: event => state => ({
-    count: state.count + 1
+  updateMessage: event => state => ({
+    message: "You clicked me!"
   })
 }
-
 const view = (state, actions) => (
-  <main class="p-4">
-    <button
-      class="border-4 border-hyper-blue px-4 py-2 rounded"
-      onclick={actions.inc}
-    >
-      Count: {state.count}
-    </button>
+  <main>
+    <h1 onclick={actions.updateMessage}>
+      {state.message}
+    </h1>
   </main>
 )
 
