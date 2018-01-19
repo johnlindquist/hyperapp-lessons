@@ -14,35 +14,51 @@ const actions = {
   })
 }
 
-const PersonItem = action => person => (
-  <div
-    class="text-lg add hover:text-hyper-blue cursor-pointer"
-    onclick={e => action(person)}
-  >
-    {person.name}
-  </div>
-)
+const PersonItem = ({
+  action,
+  classes,
+  tag
+}) => person =>
+  h(
+    tag,
+    {
+      onclick: e => action(person),
+      class: classes
+    },
+    person.name
+  )
 
 const People = ({ people, crew, addToCrew }) => (
   <div>
     <h2>People</h2>
-    {people
-      .filter(person => !crew.includes(person))
-      .map(PersonItem(addToCrew))}
+    <div class="flex flex-col">
+      {people
+        .filter(person => !crew.includes(person))
+        .map(
+          PersonItem({
+            tag: "button",
+            action: addToCrew,
+            classes:
+              "text-lg add hover:text-hyper-blue cursor-pointer"
+          })
+        )}
+    </div>
   </div>
 )
 
 const Crew = ({ crew, removeFromCrew }) => (
   <div>
     <h2>Crew</h2>
-    {crew.map(member => (
-      <div
-        onclick={e => removeFromCrew(member)}
-        class="text-lg remove hover:text-red hover:line-through cursor-pointer"
-      >
-        {member.name}
-      </div>
-    ))}
+    <div class="flex flex-col">
+      {crew.map(
+        PersonItem({
+          tag: "button",
+          action: removeFromCrew,
+          classes:
+            "text-lg remove hover:text-red hover:line-through cursor-pointer"
+        })
+      )}
+    </div>
   </div>
 )
 
