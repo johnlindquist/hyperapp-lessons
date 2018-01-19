@@ -10,23 +10,40 @@ const actions = {
     crew: [...state.crew, person]
   })
 }
-const view = (state, actions) => (
-  <main class="p-4 flex">
-    <div>
-      {state.people.map(person => (
+
+const People = ({ people, crew, addToCrew }) => (
+  <div>
+    <h2>People</h2>
+    {people
+      .filter(person => !crew.includes(person))
+      .map(person => (
         <div
           class="text-lg"
-          onclick={e => actions.addToCrew(person)}
+          onclick={e => addToCrew(person)}
         >
           {person.name}
         </div>
       ))}
-    </div>
-    <div>
-      {state.crew.map(member => (
-        <div class="text-lg">{member.name}</div>
-      ))}
-    </div>
+  </div>
+)
+
+const Crew = ({ crew }) => (
+  <div>
+    <h2>Crew</h2>
+    {crew.map(member => (
+      <div class="text-lg">{member.name}</div>
+    ))}
+  </div>
+)
+
+const view = (state, actions) => (
+  <main class="p-4 flex">
+    <People
+      people={state.people}
+      crew={state.crew}
+      addToCrew={actions.addToCrew}
+    />
+    <Crew crew={state.crew} />
   </main>
 )
 
