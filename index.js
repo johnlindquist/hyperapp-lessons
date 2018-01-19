@@ -8,30 +8,40 @@ const state = {
 const actions = {
   addToCrew: person => state => ({
     crew: [...state.crew, person]
+  }),
+  removeFromCrew: member => state => ({
+    crew: state.crew.filter(m => m !== member)
   })
 }
+
+const PersonItem = action => person => (
+  <div
+    class="text-lg add hover:text-hyper-blue cursor-pointer"
+    onclick={e => action(person)}
+  >
+    {person.name}
+  </div>
+)
 
 const People = ({ people, crew, addToCrew }) => (
   <div>
     <h2>People</h2>
     {people
       .filter(person => !crew.includes(person))
-      .map(person => (
-        <div
-          class="text-lg"
-          onclick={e => addToCrew(person)}
-        >
-          {person.name}
-        </div>
-      ))}
+      .map(PersonItem(addToCrew))}
   </div>
 )
 
-const Crew = ({ crew }) => (
+const Crew = ({ crew, removeFromCrew }) => (
   <div>
     <h2>Crew</h2>
     {crew.map(member => (
-      <div class="text-lg">{member.name}</div>
+      <div
+        onclick={e => removeFromCrew(member)}
+        class="text-lg remove hover:text-red hover:line-through cursor-pointer"
+      >
+        {member.name}
+      </div>
     ))}
   </div>
 )
@@ -43,7 +53,10 @@ const view = (state, actions) => (
       crew={state.crew}
       addToCrew={actions.addToCrew}
     />
-    <Crew crew={state.crew} />
+    <Crew
+      crew={state.crew}
+      removeFromCrew={actions.removeFromCrew}
+    />
   </main>
 )
 
