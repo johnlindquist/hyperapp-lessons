@@ -1,18 +1,32 @@
 import { app, h } from "hyperapp"
+import people from "./people.json"
 
 const state = {
-  message: "Hyperapp says hi!"
+  people: people.slice(0, 10),
+  crew: []
 }
 const actions = {
-  updateMessage: event => state => ({
-    message: "You clicked me!"
+  addToCrew: person => state => ({
+    crew: [...state.crew, person]
   })
 }
 const view = (state, actions) => (
-  <main>
-    <h1 onclick={actions.updateMessage}>
-      {state.message}
-    </h1>
+  <main class="p-4 flex">
+    <div>
+      {state.people.map(person => (
+        <div
+          class="text-lg"
+          onclick={e => actions.addToCrew(person)}
+        >
+          {person.name}
+        </div>
+      ))}
+    </div>
+    <div>
+      {state.crew.map(member => (
+        <div class="text-lg">{member.name}</div>
+      ))}
+    </div>
   </main>
 )
 
