@@ -10,7 +10,7 @@ import actions from "./actions"
 
 import HomeView from "./views/HomeView"
 import PeopleView from "./views/PeopleView"
-
+import DetailView from "./views/DetailView"
 const view = (state, actions) => (
   <main oncreate={actions.loadPeople}>
     <nav class="p-2 flex justify-around">
@@ -24,6 +24,11 @@ const view = (state, actions) => (
     <Route
       path="/people"
       render={PeopleView(state, actions)}
+    />
+    <Route
+      parent
+      path="/people/:id"
+      render={DetailView(state, actions)}
     />
   </main>
 )
