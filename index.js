@@ -1,12 +1,19 @@
 import { app, h } from "hyperapp"
+import {
+  location,
+  Route,
+  Link
+} from "@hyperapp/router"
 
 const URL = `https://starwars.egghead.training/people`
 
 const state = {
+  location: location.state,
   people: [],
   crew: []
 }
 const actions = {
+  location: location.actions,
   loadPeople: () => async (state, actions) => {
     const response = await fetch(URL)
     const people = await response.json()
@@ -70,11 +77,8 @@ const Crew = ({ crew, removeFromCrew }) => (
   </div>
 )
 
-const view = (state, actions) => (
-  <main
-    class="p-4 flex"
-    oncreate={actions.loadPeople}
-  >
+const HomeView = (state, actions) => () => (
+  <div class="p-4 flex">
     <People
       people={state.people}
       crew={state.crew}
@@ -84,12 +88,41 @@ const view = (state, actions) => (
       crew={state.crew}
       removeFromCrew={actions.removeFromCrew}
     />
+  </div>
+)
+
+const PeopleView = (state, actions) => () => (
+  <div class="p-4 flex">
+    <People
+      people={state.people}
+      crew={state.crew}
+      addToCrew={actions.addToCrew}
+    />
+  </div>
+)
+
+const view = (state, actions) => (
+  <main oncreate={actions.loadPeople}>
+    <nav class="p-2 flex justify-around">
+      <Link to="/">Home</Link>
+      <Link to="/people">People</Link>
+    </nav>
+    <Route
+      path="/"
+      render={HomeView(state, actions)}
+    />
+    <Route
+      path="/people"
+      render={PeopleView(state, actions)}
+    />
   </main>
 )
 
-app(
+const main = app(
   state,
   actions,
   view,
   document.querySelector("#app")
 )
+
+location.subscribe(main.location)
