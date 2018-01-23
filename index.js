@@ -1,11 +1,19 @@
 import { app, h } from "hyperapp"
-import people from "./people.json"
+
+const URL = `https://starwars.egghead.training/people`
 
 const state = {
-  people: people.slice(0, 10),
+  people: [],
   crew: []
 }
 const actions = {
+  loadPeople: () => async (state, actions) => {
+    const response = await fetch(URL)
+    const people = await response.json()
+
+    actions.setPeople(people.slice(0, 10))
+  },
+  setPeople: people => state => ({ people }),
   addToCrew: person => state => ({
     crew: [...state.crew, person]
   }),
@@ -23,7 +31,7 @@ const PersonItem = ({
     tag,
     {
       onclick: e => action(person),
-      class: classes
+      class: classes + " truncate w-48"
     },
     person.name
   )
@@ -63,7 +71,10 @@ const Crew = ({ crew, removeFromCrew }) => (
 )
 
 const view = (state, actions) => (
-  <main class="p-4 flex">
+  <main
+    class="p-4 flex"
+    oncreate={actions.loadPeople}
+  >
     <People
       people={state.people}
       crew={state.crew}
