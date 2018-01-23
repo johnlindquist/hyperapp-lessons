@@ -16,6 +16,7 @@ const view = (state, actions) => (
     <nav class="p-2 flex justify-around">
       <Link to="/">Home</Link>
       <Link to="/people">People</Link>
+      <Link to="/crew">Crew</Link>
     </nav>
     <Route
       path="/"
@@ -23,7 +24,16 @@ const view = (state, actions) => (
     />
     <Route
       path="/people"
-      render={PeopleView(state, actions)}
+      render={PeopleView(
+        state.people.filter(
+          person => !state.crew.includes(person)
+        ),
+        actions
+      )}
+    />
+    <Route
+      path="/crew"
+      render={PeopleView(state.crew, actions)}
     />
     <Route
       parent

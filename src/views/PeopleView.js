@@ -1,13 +1,9 @@
 import { h } from "hyperapp"
 
-import People from "../components/People"
+import PersonLink from "../components/PersonLink"
 
-export default (state, actions) => () => (
-  <div class="p-4 flex">
-    <People
-      people={state.people}
-      crew={state.crew}
-      addToCrew={actions.addToCrew}
-    />
+export default (people, actions) => () => (
+  <div class="p-4 flex flex-col text-xl">
+    {people.map(PersonLink)}
   </div>
 )
